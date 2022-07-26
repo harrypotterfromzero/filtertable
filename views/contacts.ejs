@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="/css/jquery.dataTables.min.css" />
 
     <link rel="stylesheet" href="/css/danhsach.css" />
+    <link rel="stylesheet" href="/css/boxicons.min.css" />
+    <link rel="stylesheet" href="style.css" />
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
     <style>
@@ -26,11 +28,11 @@
       <div class="bar">
         <div class="dept-list">
           <span class="label-filter">Đơn vị </span>
-          <select class="form-control form-control2" id="earning1">
+          <select class="form-control form-control2" id="scoring1">
             <option value="">Hiển thị tất cả</option>
             <%trungTam.forEach((item)=>{%>
-                <option value=""><%=item%></option>
-              <%});%>
+            <option value=""><%=item%></option>
+            <%});%>
           </select>
         </div>
       </div>
@@ -40,60 +42,46 @@
           <select class="form-control form-control1" id="earning1">
             <option value="">Hiển thị tất cả</option>
             <%phongBan.forEach((item)=>{%>
-                <option value=""><%=item%></option>
-              <%});%>
+            <option value=""><%=item%></option>
+            <%});%>
           </select>
         </div>
       </div>
       <div class="bar">
         <div class="dept-list">
           <span class="label-filter">Vai trò </span>
-          <select class="form-control" id="earning1">
+          <select class="form-control" id="status1">
             <option value="">Hiển thị tất cả</option>
             <option value="">Quản trị</option>
             <option value="">Người dùng</option>
           </select>
         </div>
       </div>
+      <div class="bar">
+        <div class="dept-list">
+          <p id="selectTriggerFilter">
+            <label><b>Filter:</b></label
+            ><br />
+          </p>
+        </div>
+      </div>
     </div>
     <table id="example" class="display" style="width: 100%">
       <thead class="title-column">
         <tr>
-          <th style="width: 10%">Tên người dùng</th>
+          <th style="width: 12%">Tên người dùng</th>
           <th style="width: 15%">Tên đầy đủ</th>
-          <th style="width: 10%">Đơn vị/Trung tâm</th>
-          <th style="width: 15%">Phòng ban</th>
-          <th style="width: 15%">Email</th>
-          <th style="width: 15%">Vai trof</th>
-          <th style="width: 15%">Phòng ban</th>
+          <th style="width: 20%">Đơn vị/Trung tâm</th>
+          <th style="width: 20%">Phòng ban</th>
+          <th style="width: 10%">Email</th>
+          <th style="width: 10%">Vai trò</th>
+          <th style="width: 3%">Icon</th>
         </tr>
       </thead>
     </table>
     <script>
       $(document).ready(function () {
         var t = $("#example").DataTable({
-          // initComplete: function () {
-          //   this.api()
-          //     .columns([2, 3])
-          //     .every(function () {
-          //       var column = this;
-          //       var select = $('<select><option value=""></option></select>')
-          //         .appendTo($(column.header()).empty())
-          //         .on("change", function () {
-          //           var val = $.fn.dataTable.util.escapeRegex($(this).val());
-          //           column.search( this.value ).draw();
-          //         });
-          //       column
-          //         .data()
-          //         .unique()
-          //         .sort()
-          //         .each(function (d, j) {
-          //           select.append(
-          //             '<option value="' + d + '">' + d + "</option>"
-          //           );
-          //         });
-          //     });
-          // },
           processing: true,
           serverSide: true,
           serverMethod: "get",
@@ -105,7 +93,7 @@
               previous: "Trước",
               next: "Sau",
             },
-            searchPlaceholder: "Tìm kiếm thông tin người dùng"
+            searchPlaceholder: "Tìm kiếm thông tin người dùng",
           },
           ajax: {
             url: "/contacts/get_data",
@@ -116,6 +104,21 @@
             { data: "FULL_NAME" },
             { data: "DEPT" },
             { data: "DEPT_NAME" },
+            { data: "EMAIL" },
+            {
+              data: null,
+              render: function (data, type, row) {
+                if (data.QLTS_POWERUSER == true) return "Quản trị";
+                return "Người dùng";
+              },
+            },
+            {
+              data: null,
+              className: "color-link",
+              defaultContent:
+                '<span style="display:flex;justify-content: center;"><i class="bx bx-pencil" ></i></span>',
+              orderable: false,
+            },
           ],
         });
       });

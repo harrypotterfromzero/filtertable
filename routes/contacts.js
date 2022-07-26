@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
   });
 });
 router.get("/test_data", async (req, res) => {
-  sql = "select distinct DEPT from CONTCTSM1";
+  sql = "select distinct QLTS_ENDUSER from CONTCTSM1";
   let result = await config.Open(sql, [], false);
   Users = [];
   console.log(result.rows);
@@ -67,6 +67,7 @@ router.get("/get_data", async (request, response, next) => {
       OR FULL_NAME LIKE '%${search_value}%'
       OR DEPT LIKE '%${search_value}%'
       OR DEPT_NAME LIKE '%${search_value}%'
+      OR EMAIL LIKE '%${search_value}%'
      )
     `;
   var sql = "SELECT COUNT(*) AS Total FROM CONTCTSM1";
@@ -90,6 +91,8 @@ router.get("/get_data", async (request, response, next) => {
       FULL_NAME: user[85],
       DEPT: user[4],
       DEPT_NAME: user[82],
+      EMAIL:user[11],
+      QLTS_POWERUSER:user[96]
     };
     data_arr.push(userSchema);
   });
