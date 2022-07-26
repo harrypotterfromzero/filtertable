@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nhan Su</title>
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css" />
+
+    <link rel="stylesheet" href="/css/danhsach.css" />
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <style>
+      .title-header {
+        margin-bottom: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title-header">
+      <span style="color: #97a0af; font-size: 1.7rem"
+        >Quản lý người dùng&nbsp;&nbsp;-&nbsp;&nbsp;</span
+      >
+      <span style="color: #091e42; font-size: 1.7rem"
+        >Danh sách người dùng</span
+      >
+    </div>
+    <div class="fixed-table-toolbar">
+      <div class="bar">
+        <div class="dept-list">
+          <span class="label-filter">Đơn vị </span>
+          <select class="form-control form-control2" id="earning1">
+            <option value="">Hiển thị tất cả</option>
+            <%trungTam.forEach((item)=>{%>
+                <option value=""><%=item%></option>
+              <%});%>
+          </select>
+        </div>
+      </div>
+      <div class="bar">
+        <div class="dept-list">
+          <span class="label-filter">Phòng ban </span>
+          <select class="form-control form-control1" id="earning1">
+            <option value="">Hiển thị tất cả</option>
+            <%phongBan.forEach((item)=>{%>
+                <option value=""><%=item%></option>
+              <%});%>
+          </select>
+        </div>
+      </div>
+      <div class="bar">
+        <div class="dept-list">
+          <span class="label-filter">Vai trò </span>
+          <select class="form-control" id="earning1">
+            <option value="">Hiển thị tất cả</option>
+            <option value="">Quản trị</option>
+            <option value="">Người dùng</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <table id="example" class="display" style="width: 100%">
+      <thead class="title-column">
+        <tr>
+          <th style="width: 10%">Tên người dùng</th>
+          <th style="width: 15%">Tên đầy đủ</th>
+          <th style="width: 10%">Đơn vị/Trung tâm</th>
+          <th style="width: 15%">Phòng ban</th>
+          <th style="width: 15%">Email</th>
+          <th style="width: 15%">Vai trof</th>
+          <th style="width: 15%">Phòng ban</th>
+        </tr>
+      </thead>
+    </table>
+    <script>
+      $(document).ready(function () {
+        var t = $("#example").DataTable({
+          // initComplete: function () {
+          //   this.api()
+          //     .columns([2, 3])
+          //     .every(function () {
+          //       var column = this;
+          //       var select = $('<select><option value=""></option></select>')
+          //         .appendTo($(column.header()).empty())
+          //         .on("change", function () {
+          //           var val = $.fn.dataTable.util.escapeRegex($(this).val());
+          //           column.search( this.value ).draw();
+          //         });
+          //       column
+          //         .data()
+          //         .unique()
+          //         .sort()
+          //         .each(function (d, j) {
+          //           select.append(
+          //             '<option value="' + d + '">' + d + "</option>"
+          //           );
+          //         });
+          //     });
+          // },
+          processing: true,
+          serverSide: true,
+          serverMethod: "get",
+          language: {
+            search: "",
+            info: "Hiển thị trang _PAGE_ trên _PAGES_",
+            infoEmpty: "Không tìm thấy bản ghi nào.",
+            paginate: {
+              previous: "Trước",
+              next: "Sau",
+            },
+            searchPlaceholder: "Tìm kiếm thông tin người dùng"
+          },
+          ajax: {
+            url: "/contacts/get_data",
+          },
+          aaSorting: [],
+          columns: [
+            { data: "CONTACT_NAME" },
+            { data: "FULL_NAME" },
+            { data: "DEPT" },
+            { data: "DEPT_NAME" },
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>
